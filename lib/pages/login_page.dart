@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'home_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   final String userName;
@@ -11,6 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool loading = true;
+
   @override
   void initState() {
     super.initState();
@@ -22,15 +28,54 @@ class _LoginPageState extends State<LoginPage> {
         'https://ts-prisma-boilerplate.mizucoffee.net/api/auth/signin');
     var response = await http.post(url,
         body: {'name': widget.userName, 'password': widget.password});
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    if (response.statusCode == 200) {
+      final accessToken = jsonDecode(response.body)["access_token"].toString();
+      final refreshToken =
+          jsonDecode(response.body)["refresh_token"].toString();
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return HomePage(
+                name: widget.userName,
+                accessToken: accessToken,
+                refreshToken: refreshToken);
+          },
+        ),
+      );
+    } else {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
-        child: Text("${widget.userName}, ${widget.password}"),
+        child: loading
+            ? const CupertinoActivityIndicator()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/warning.png",
+                    width: 200,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Login Failed...",
+                    style: GoogleFonts.notoSans(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

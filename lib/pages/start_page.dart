@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'qrcode_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -16,9 +19,28 @@ class StartPage extends StatelessWidget {
           ),
         );
       },
-      child: const Scaffold(
+      child: Scaffold(
+        backgroundColor: Colors.black,
         body: Center(
-          child: Text("Tap to Login"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/logo.png",
+                width: 350,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Tap to Login...",
+                style: GoogleFonts.notoSans(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

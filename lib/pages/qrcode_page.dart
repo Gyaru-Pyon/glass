@@ -12,6 +12,7 @@ class _QRcodePageState extends State<QRcodePage> {
 
   void _onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
+      controller.dispose();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
@@ -27,13 +28,27 @@ class _QRcodePageState extends State<QRcodePage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: Column(
-        children: <Widget>[
+      body: Stack(
+        children: [
           Expanded(
             child: QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+            ),
+          ),
+          Center(
+            child: Image.asset(
+              "assets/images/qr.png",
+              height: 500,
+              width: 500,
             ),
           ),
         ],
