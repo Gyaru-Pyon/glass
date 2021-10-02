@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wave/wave.dart';
 import 'package:wave/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:assets_audio_player/assets_audio_player.dart';
 import '../classes/emotion.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       _fetchCurrentEmotions,
     );
     Timer.periodic(
-      const Duration(minutes: 10),
+      const Duration(minutes: 5),
       _fetchVoice,
     );
     emotions.sort((a, b) => a.score.compareTo(b.score));
@@ -81,7 +82,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _fetchVoice(Timer timer) {}
+  void _fetchVoice(Timer timer) async {
+    final assetsAudioPlayer = AssetsAudioPlayer();
+
+    try {
+      await assetsAudioPlayer.open(
+        Audio.network("https://gyaru-pyon.mizucoffee.net/api/talk",
+            headers: {"Authorization": "Bearer ${widget.accessToken}"}),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
