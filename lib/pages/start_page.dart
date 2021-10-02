@@ -32,7 +32,7 @@ class StartPage extends StatelessWidget {
             children: [
               Image.asset(
                 "assets/images/logo.png",
-                width: 350,
+                height: 350,
               ),
               const SizedBox(height: 10),
               Text(

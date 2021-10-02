@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         emotions.sort((a, b) => a.score.compareTo(b.score));
       });
-      print(emotions);
     }
   }
 

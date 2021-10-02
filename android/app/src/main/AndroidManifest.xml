@@ -6,8 +6,8 @@
 
     <uses-feature android:name="android.hardware.camera"/>
     <application
-        android:label="glass"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Inside Class"
+        android:icon="@mipmap/launcher_icon">
        <meta-data
            android:name="com.google.android.glass.TouchEnabledApplication"
            android:value="true" />
