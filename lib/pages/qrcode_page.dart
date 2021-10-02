@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'login_page.dart';
 
@@ -28,30 +29,35 @@ class _QRcodePageState extends State<QRcodePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
-    return Scaffold(
-      body: Stack(
-        children: [
-          Expanded(
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+        if (details.primaryVelocity! > 0) {
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Expanded(
+              child: QRView(
+                key: qrKey,
+                onQRViewCreated: _onQRViewCreated,
+              ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.black.withOpacity(0.5),
+            Expanded(
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+              ),
             ),
-          ),
-          Center(
-            child: Image.asset(
-              "assets/images/qr.png",
-              height: 500,
-              width: 500,
+            Center(
+              child: Image.asset(
+                "assets/images/qr.png",
+                height: 500,
+                width: 500,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

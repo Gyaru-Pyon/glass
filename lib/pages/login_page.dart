@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,30 +53,37 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: loading
-            ? const CupertinoActivityIndicator()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/warning.png",
-                    width: 200,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Login Failed...",
-                    style: GoogleFonts.notoSans(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w100,
-                      color: Colors.white,
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+        if (details.primaryVelocity! > 0) {
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: loading
+              ? const CupertinoActivityIndicator()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/warning.png",
+                      width: 200,
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Login Failed...",
+                      style: GoogleFonts.notoSans(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w100,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'qrcode_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,8 +8,6 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -18,6 +17,11 @@ class StartPage extends StatelessWidget {
             },
           ),
         );
+      },
+      onVerticalDragEnd: (details) {
+        if (details.primaryVelocity! > 0) {
+          SystemNavigator.pop();
+        }
       },
       child: Scaffold(
         backgroundColor: Colors.black,
