@@ -25,8 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() async {
-    var url = Uri.parse(
-        'https://ts-prisma-boilerplate.mizucoffee.net/api/auth/signin');
+    var url = Uri.parse('https://gyaru-pyon.mizucoffee.net/api/auth/signin');
     var response = await http.post(url,
         body: {'name': widget.userName, 'password': widget.password});
     if (response.statusCode == 200) {
@@ -38,9 +37,10 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(
           builder: (context) {
             return HomePage(
-                name: widget.userName,
-                accessToken: accessToken,
-                refreshToken: refreshToken);
+              name: widget.userName,
+              accessToken: accessToken,
+              refreshToken: refreshToken,
+            );
           },
         ),
       );
@@ -54,6 +54,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        if (!loading) {
+          int count = 0;
+          Navigator.popUntil(context, (_) => count++ >= 2);
+        }
+      },
       onVerticalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
           SystemNavigator.pop();
